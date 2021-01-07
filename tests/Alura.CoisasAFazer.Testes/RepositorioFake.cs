@@ -11,6 +11,16 @@ namespace Alura.CoisasAFazer.Testes
     {
         List<Tarefa> lista = new List<Tarefa>();
 
+        public void IncluirTarefas(params Tarefa[] tarefas)
+        {
+            tarefas.ToList().ForEach(t => lista.Add(t));
+        }
+
+        public IEnumerable<Tarefa> ObtemTarefas(Func<Tarefa, bool> filtro)
+        {
+            return lista.Where(filtro);
+        }
+
         public void AtualizarTarefas(params Tarefa[] tarefas)
         {
             throw new NotImplementedException();
@@ -21,19 +31,9 @@ namespace Alura.CoisasAFazer.Testes
             throw new NotImplementedException();
         }
 
-        public void IncluirTarefas(params Tarefa[] tarefas)
-        {
-            tarefas.ToList().ForEach(t => lista.Add(t));
-        }
-
         public Categoria ObtemCategoriaPorId(int id)
         {
             throw new NotImplementedException();
-        }
-
-        public IEnumerable<Tarefa> ObtemTarefas(Func<Tarefa, bool> filtro)
-        {
-            return lista.Where(filtro);
         }
     }
 }
