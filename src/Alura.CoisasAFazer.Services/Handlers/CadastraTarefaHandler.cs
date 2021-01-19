@@ -30,13 +30,11 @@ namespace Alura.CoisasAFazer.Services.Handlers
                     concluidaEm: null,
                     status: StatusTarefa.Criada
                 );
-
                 _logger.LogDebug("Persistindo a tarefa...");
                 _repo.IncluirTarefas(tarefa);
-
                 return new CommandResult(true);
             }
-            catch
+            catch (Exception)
             {
                 return new CommandResult(false);
             }

@@ -3,10 +3,10 @@ using Alura.CoisasAFazer.Core.Models;
 using Alura.CoisasAFazer.Infrastructure;
 using Alura.CoisasAFazer.Services.Handlers;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using System;
 using System.Linq;
 using Xunit;
+using Moq;
 
 namespace Alura.CoisasAFazer.Testes
 {
@@ -16,7 +16,7 @@ namespace Alura.CoisasAFazer.Testes
         public void DadaTarefaComInfoValidasDeveIncluirNoBD()
         {
             //arrange
-            var comando = new CadastraTarefa("Estudar Xunit", new Categoria("Estudo"), new DateTime(2019, 12, 31));
+            var comando = new CadastraTarefa("Estudar Xunit", new Categoria(100, "Estudo"), new DateTime(2019, 12, 31));
 
             var options = new DbContextOptionsBuilder<DbTarefasContext>()
                 .UseInMemoryDatabase("DbTarefasContext")
@@ -37,22 +37,22 @@ namespace Alura.CoisasAFazer.Testes
         [Fact]
         public void QuandoExceptionForLancadaResultadoIsSuccessDeveSerFalse()
         {
-            // Arrange
+            //arrange
             var comando = new CadastraTarefa("Estudar Xunit", new Categoria("Estudo"), new DateTime(2019, 12, 31));
 
             var mock = new Mock<IRepositorioTarefas>();
 
             mock.Setup(r => r.IncluirTarefas(It.IsAny<Tarefa[]>()))
-                .Throws(new Exception("'Houve um erro ao incluir as tarefas"));
+                .Throws(new Exception("Houve um erro na inclusão de tarefas"));
 
             var repo = mock.Object;
 
             var handler = new CadastraTarefaHandler(repo);
 
-            // Act
+            //act
             CommandResult resultado = handler.Execute(comando);
 
-            // Assert
+            //assert
             Assert.False(resultado.IsSuccess);
         }
     }
